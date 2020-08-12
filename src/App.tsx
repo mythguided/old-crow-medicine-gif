@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import GiphySearcher from './GiphySearcher';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component<{}, { searchTerm: string }> {
+    constructor(props: Readonly<{}>) {
+        super(props);
+        this.state = {
+            searchTerm: 'crow'
+        }
+
+        this.searchTermUpdate = this.searchTermUpdate.bind(this);
+    }
+
+    searchTermUpdate(event: { target: HTMLInputElement; }) {
+        const target: HTMLInputElement = event.target;
+        console.log(Object.getOwnPropertyNames(target))
+        this.setState({
+            searchTerm: target.value
+        })
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <h1>Giphy Searcher!</h1>
+                <label>Giphy Search: <input
+                    type='text' name='searchTerm'
+                    value={this.state.searchTerm}
+                    onChange={this.searchTermUpdate}
+                /> </label>
+                <GiphySearcher search={this.state.searchTerm} />
+            </div>
+        );
+    }
 }
 
 export default App;
